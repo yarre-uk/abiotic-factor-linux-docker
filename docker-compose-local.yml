@@ -4,7 +4,7 @@ services:
       context: .
     restart: unless-stopped
     volumes:
-      - "gamefiles:/server"
+      - "./gamefiles:/server"
       - "./logs:/server/AbioticFactor/Saved"
       - "./saves:/server/AbioticFactor/Saved/SaveGames/Server/Worlds"
     environment:
