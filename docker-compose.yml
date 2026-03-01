@@ -1,0 +1,57 @@
+services:
+  abiotic-server:
+    build: 
+      context: .
+    restart: unless-stopped
+    volumes:
+      - "./gamefiles:/server"
+      - "./data:/server/AbioticFactor/Saved"
+      - "./saves:/server/AbioticFactor/Saved/SaveGames/Server/Worlds"
+    environment:
+      - MaxServerPlayers=6
+      - Port=7777
+      - QueryPort=27015
+      - ServerPassword=password
+      - AdminPassword=password
+      - SteamServerName=Yarre Linux Server
+      - UsePerfThreads=true
+      - NoAsyncLoadingThread=true
+      - WorldSaveName=Cascade
+#     - AutoUpdate=true
+#     - AdditionalArgs=-SandboxIniPath=Config/WindowsServer/Server1Sandbox.ini
+    user: "1000:1000"
+    ports:
+      - "0.0.0.0:7777:7777/udp"
+      - "0.0.0.0:27015:27015/udp"
+
+
+  # backup-sender:
+  #   image: yarreuk/backup-sender:latest
+  #   container_name: backup-sender
+  #   volumes:
+  #     - ./sender/config.yml:/config.yml:ro
+  #     - ./backups:/watch:ro
+  #   network_mode: host
+  #   depends_on:
+  #     backup-archiver:
+  #         condition: service_healthy
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         cpus: '0.25'
+  #         memory: 128M
+
+  # backup-archiver:
+  #   image: yarreuk/backup-archiver:latest
+  #   container_name: backup-archiver
+  #   volumes:
+  #     - ./archiver/config.yml:/config.yml:ro
+  #     - ./archiver/include-patterns:/include-patterns:ro
+  #     - ./watch:/server:ro
+  #     - ./backups:/backups
+  #   user: "1000:1000"
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         cpus: '1.0'
+  #         memory: 512M

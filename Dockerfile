@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 RUN dpkg --add-architecture i386 && \
     apt-get update && \
@@ -10,6 +10,8 @@ RUN dpkg --add-architecture i386 && \
     rm -rf /var/lib/apt/lists/*
 
 ENV PATH="$PATH:/usr/games"
+
+USER 1000:1000
 
 WORKDIR /steamcmd
 
