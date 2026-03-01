@@ -1,11 +1,10 @@
 services:
   abiotic-server:
-    build: 
-      context: .
+    image: yarreuk/abiotic-server:latest
     restart: unless-stopped
     volumes:
-      - "./gamefiles:/server"
-      - "./data:/server/AbioticFactor/Saved"
+      - "gamefiles:/server"
+      - "./logs:/server/AbioticFactor/Saved"
       - "./saves:/server/AbioticFactor/Saved/SaveGames/Server/Worlds"
     environment:
       - MaxServerPlayers=6
@@ -25,33 +24,36 @@ services:
       - "0.0.0.0:27015:27015/udp"
 
 
-  # backup-sender:
-  #   image: yarreuk/backup-sender:latest
-  #   container_name: backup-sender
-  #   volumes:
-  #     - ./sender/config.yml:/config.yml:ro
-  #     - ./backups:/watch:ro
-  #   network_mode: host
-  #   depends_on:
-  #     backup-archiver:
-  #         condition: service_healthy
-  #   deploy:
-  #     resources:
-  #       limits:
-  #         cpus: '0.25'
-  #         memory: 128M
 
-  # backup-archiver:
-  #   image: yarreuk/backup-archiver:latest
-  #   container_name: backup-archiver
-  #   volumes:
-  #     - ./archiver/config.yml:/config.yml:ro
-  #     - ./archiver/include-patterns:/include-patterns:ro
-  #     - ./watch:/server:ro
-  #     - ./backups:/backups
-  #   user: "1000:1000"
-  #   deploy:
-  #     resources:
-  #       limits:
-  #         cpus: '1.0'
-  #         memory: 512M
+  backup-sender:
+    image: yarreuk/backup-sender:latest
+    container_name: backup-sender
+    volumes:
+      - ./sender-config.yml:/config.yml:ro
+      - ./backups:/watch:ro
+    network_mode: host
+    depends_on:
+      backup-archiver:
+          condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 128M
+
+  backup-archiver:
+    image: yarreuk/backup-archiver:latest
+    container_name: backup-archiver
+    volumes:
+      - ./archiver-config.yml:/config.yml:ro
+      - ./saves:/server:ro
+      - ./backups:/backups
+    user: "1000:1000"
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+
+volumes:
+  gamefiles:
