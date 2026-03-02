@@ -17,12 +17,9 @@ services:
       - WorldSaveName=Cascade
 #     - AutoUpdate=true
 #     - AdditionalArgs=-SandboxIniPath=Config/WindowsServer/Server1Sandbox.ini
-    user: "1000:1000"
     ports:
       - "0.0.0.0:7777:7777/udp"
       - "0.0.0.0:27015:27015/udp"
-
-
 
   backup-sender:
     image: yarreuk/backup-sender:latest
@@ -53,6 +50,3 @@ services:
         limits:
           cpus: '1.0'
           memory: 512M
-
-volumes:
-  gamefiles:
