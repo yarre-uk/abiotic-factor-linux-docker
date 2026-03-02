@@ -17,8 +17,8 @@ services:
       - UsePerfThreads=true
       - NoAsyncLoadingThread=true
       - WorldSaveName=Cascade
-#     - AutoUpdate=true
-#     - AdditionalArgs=-SandboxIniPath=Config/WindowsServer/Server1Sandbox.ini
+      # - AutoUpdate=true
+      # - AdditionalArgs=-SandboxIniPath=Config/WindowsServer/Server1Sandbox.ini
     ports:
       - "0.0.0.0:7777:7777/udp"
       - "0.0.0.0:27015:27015/udp"
