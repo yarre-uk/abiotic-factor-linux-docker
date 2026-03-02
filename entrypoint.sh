@@ -1,7 +1,7 @@
 # If running as root, fix /server ownership then re-exec as user 1000
 if [ "$(id -u)" = "0" ]; then
-    chown -R 1000:1000 /server
-    exec gosu 1000:1000 "$0" "$@"
+    chown -R 1001:1001 /server
+    exec su -s /bin/bash -c "exec bash /entrypoint.sh" gameserver
 fi
 
 
